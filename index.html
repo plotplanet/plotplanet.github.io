@@ -1,621 +1,254 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon" />
+    <title>PlotPlanet - The Book Library</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Roboto', sans-serif;
+      }
 
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <!--* favicon -->
-  <link rel="shortcut icon" href="./assets/images/logo/favicon.ico" type="image/x-icon" />
-  <!--! css link -->
-  <link rel="stylesheet" href="./assets/style.css" />
-  <!--? swiperjs cdn link -->
-  <link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css" />
-  <!--todo tailwind cdn link -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            clifford: "#da373d",
-          },
-        },
-      },
-    };
-  </script>
+      body {
+        background: #141414;
+        color: #e0e0e0;
+        overflow-x: hidden;
+      }
 
-  <title>PlotPLanet - Home</title>
-</head>
+      /* Scrollbar Styling - Entire scrollbar is pink */
+      ::-webkit-scrollbar {
+        width: 10px;
+      }
 
-<body>
-  <!--! newspaper popup -->
-  <div id="newspaper1" class="z-20 fixed w-screen h-screen hidden items-center justify-center">
-    <div id="newspaperOverlay" class="z-10 fixed top-0 w-screen h-screen bg-[#00000066]"></div>
-    <div id="newspaperBox"
-      class="z-20 w-4/5 lg:w-3/6 h-2/5 lg:h-3/5 bg-white flex items-center rounded-md overflow-hidden border shadow-md">
-      <div class="hidden md:flex md:w-1/2 h-full">
-        <img class="w-full h-full" src="./assets/images/newsletter.png" alt="newsletter" />
-      </div>
-      <div class="w-full md:w-1/2 h-full flex flex-col justify-center p-12 px-8 gap-4 relative">
-        <button class="closeButton absolute top-4 right-4 text-2xl hover:text-red-500">
-          <ion-icon name="close-circle-outline"></ion-icon>
-        </button>
-        <h3 class="text-xl font-bold text-gray-800">Subscribe Newsletter.</h3>
-        <p class="text-md text-gray-600 font-semibold">
-          Subscribe the <span class="text-lg font-semibold">Anon</span> to get
-          latest products and discount update.
-        </p>
-        <input class="border p-2" type="email" placeholder="Email Address" />
-        <button class="rounded-md self-center py-2 px-3 bg-gray-900 text-white hover:bg-red-500">
-          SUBSCRIBE
-        </button>
-      </div>
-    </div>
-  </div>
+      ::-webkit-scrollbar-thumb {
+        background-color: #ff6262; /* Entire scrollbar is pink */
+        border-radius: 10px;
+      }
 
-  <header class="header w-full">
-    <div class="top-header w-screen flex flex-col items-center justify-between ">
-      <div class="flex w-full items-center justify-between p-4 md:px-20 border-b">
-        <div class="icons hidden lg:flex items-center gap-2">
-          <a class="text-gray-700 bg-gray-300/50 p-1 rounded-md hover:scale-110 hover:text-white hover:bg-red-400 flex items-center justify-center transition-all"
-            href="https://www.instagram.com/_plotplanet/">
-            <ion-icon name="logo-instagram"></ion-icon>
-          </a>
-        </div>
-        <h3 class="text-gray-400 font-semibold text-xs">
-          THIS SITE IS STILL IN BETA
-        </h3>
-        <div></div>
-      </div>
-      <div class="gap-4 flex flex-col sm:flex-row w-full items-center justify-between p-6 md:px-24">
-        <h1 class="font-semibold text-4xl text-gray-600">PlotPLanet</h1>
-        <form class="relative w-full sm:w-3/5">
-          <input class="w-full h-full p-2 border rounded-xl" placeholder="Enter Your Product Name..." id="search"
-            type="text" />
-          <label class="absolute right-2 top-2" for="search">
-            <i class="fa-solid fa-magnifying-glass cursor-pointer"></i>
-          </label>
-        </form>
-        <div class="icons hidden mr-2 text-3xl md:flex gap-8 text-gray-600">
-          <div class="relative">
-            <ion-icon name="person-outline"></ion-icon>
-          </div>
-        </div>
-      </div>
-    </div>
+      ::-webkit-scrollbar-thumb:hover {
+        background-color: #ff3e3e; /* Darker pink on hover */
+      }
 
-    <div class="mobileNavbar">
-      <!--? navbar button -->
-      <div style="box-shadow: 0 0 0.3rem lightgray">
-        <button id="openNavbarButton">
-        </button>
+      ::-webkit-scrollbar-track {
+        background: #333;
+      }
 
-        <button id="categoriesBtn">
-        </button>
-      </div>
-      <!--* overlay -->
-      <div id="overlayNavbar" class="hidden fixed top-0 left-0 w-screen h-screen bg-gray-500/30 z-10"></div>
+      header {
+        display: flex;
+        justify-content: space-between;
+        padding: 20px 30px;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 1000;
+        background-color: rgba(0, 0, 0, 0.7);
+      }
 
-      <!--! sidebarNavbar -->
-      <div
-        class="fixed top-0 w-72 h-screen bg-white p-4 shadow-lg hidden flex-col justify-start gap-4 text-lg font-semibold overflow-auto z-20"
-        id="sidebarNavbar">
-        <div class="flex justify-between border-b-2 py-4">
-          <h3 class="text-red-400">Menu</h3>
-          <button class="closeButton hover:text-red-500">
-            <ion-icon name="close-circle-outline"></ion-icon>
-          </button>
-        </div>
-        <div class="mobile_navbar_item border-b pb-3 text-gray-600">Home</div>
-        <div class="mobile_navbar_item border-b pb-3 text-gray-600">
-          <details>
-            <a href="#">Shirt</a>
-            <a href="#">Shorts & Jeans</a>
-            <a href="#">Safety Shoes</a>
-            <a href="#">Wallet</a>
-            <summary>Men's</summary>
-          </details>
-        </div>
-        <div class="mobile_navbar_item border-b pb-3 text-gray-600">
-          <details>
-            <a href="#">Dress & Frock</a>
-            <a href="#">Earrings</a>
-            <a href="#">Necklace</a>
-            <a href="#">Makeup Kit</a>
-            <summary>Women's</summary>
-          </details>
-        </div>
-        <div class="mobile_navbar_item border-b pb-3 text-gray-600">
-          <details>
-            <a href="#">Earrings</a>
-            <a href="#">Couple Rings</a>
-            <a href="#">Necklace</a>
-            <a href="#">Bracelets</a>
-            <summary>Jewelry</summary>
-          </details>
-        </div>
-        <div class="mobile_navbar_item border-b pb-3 text-gray-600">
-          <details>
-            <a href="#">Clothes Perfume</a>
-            <a href="#">Deodorant</a>
-            <a href="#">Flower Fragrance</a>
-            <a href="#">Air Freshener</a>
-            <summary>Perfume</summary>
-          </details>
-        </div>
-        <div class="mobile_navbar_item border-b pb-3 text-gray-600">
-          <a href="#">Blog</a>
-        </div>
-        <div class="mobile_navbar_item border-b pb-3 text-gray-600">
-          <a href="#">Hot Offers</a>
-        </div>
+      .logo {
+        font-size: 24px;
+        font-weight: bold;
+      }
 
-        <div class="mobile_navbar_item border-b pb-3 text-gray-600">
-          <details>
-            <div class="border rounded-xl shadow-xl flex flex-col items-start">
-              <a class="border-b w-full pb-2" href="#">English</a>
-              <a class="border-b w-full pb-2" href="#">Persian</a>
-            </div>
-            <summary>Language</summary>
-          </details>
-        </div>
-        <div class="mobile_navbar_item border-b pb-3 text-gray-600">
-          <details>
-            <div class="border rounded-xl shadow-xl flex flex-col items-start">
-              <a class="border-b w-full pb-2" href="#">USD $</a>
-              <a class="border-b w-full pb-2" href="#">EUR €</a>
-            </div>
-            <summary>Currency</summary>
-          </details>
-        </div>
+      .logo span {
+        color: #ff6262; /* Pink color for "Plot" */
+      }
 
-        <div class="icons flex items-center justify-center gap-4">
-          <a class="text-gray-900 bg-gray-300/50 p-2 rounded-md hover:scale-110 hover:text-white hover:bg-red-400 flex items-center justify-center"
-            href="#">
-            <ion-icon name="logo-instagram"></ion-icon>
-          </a>
-          <a class="text-gray-900 bg-gray-300/50 p-2 rounded-md hover:scale-110 hover:text-white hover:bg-red-400 flex items-center justify-center"
-            href="#">
-            <ion-icon name="logo-linkedin"></ion-icon>
-          </a>
-          <a class="text-gray-900 bg-gray-300/50 p-2 rounded-md hover:scale-110 hover:text-white hover:bg-red-400 flex items-center justify-center"
-            href="#">
-            <ion-icon name="logo-github"></ion-icon>
-          </a>
-        </div>
-      </div>
+      .nav-links {
+        display: flex;
+        gap: 20px;
+        color: #fff;
+      }
 
-      <!--todo sidebarCategories -->
-      <div id="sidebarCategories"
-        class="fixed top-0 w-80 h-screen bg-white p-6 shadow-lg hidden flex-col justify-start gap-4 font-semibold overflow-auto z-20">
-        <div class="categories w-full h-auto">
-          <div class="w-full flex items-center justify-between">
-            <h1 class="text-lg font-semibold mb-4">CATEGORY</h1>
-            <button class="closeButton text-xl hover:text-red-500">
-              <ion-icon name="close-circle-outline"></ion-icon>
-            </button>
-          </div>
-          <div class="border-b pb-3 text-lg text-gray-600">
-            <details>
-              <div class="flex justify-between items-baseline text-sm">
-                <a href="#">Shirt</a>
-                <span>300</span>
-              </div>
-              <div class="flex justify-between items-baseline text-sm">
-                <a href="#">Shorts & Jeans</a>
-                <span>30</span>
-              </div>
-              <div class="flex justify-between items-baseline text-sm">
-                <a href="#">Jacket</a>
-                <span>50</span>
-              </div>
-              <div class="flex justify-between items-baseline text-sm">
-                <a href="#">Dress & Frock</a>
-                <span>120</span>
-              </div>
-              <summary>
-                <div class="flex items-center gap-2">
-                  Clothes
-                  <img class="w-4 h-4" src="./assets/images/icons/dress.svg" alt="productPicture" />
-                </div>
-              </summary>
-            </details>
-          </div>
-          <div class="border-b pb-3 text-lg text-gray-600">
-            <details>
-              <div class="flex justify-between items-baseline text-sm">
-                <a href="#">Sports</a>
-                <span>300</span>
-              </div>
-              <div class="flex justify-between items-baseline text-sm">
-                <a href="#">Formal</a>
-                <span>30</span>
-              </div>
-              <div class="flex justify-between items-baseline text-sm">
-                <a href="#">Casual</a>
-                <span>50</span>
-              </div>
-              <div class="flex justify-between items-baseline text-sm">
-                <a href="#">Safety Shoes</a>
-                <span>120</span>
-              </div>
-              <summary>
-                <div class="flex items-center gap-2">
-                  Footwear
-                  <img class="w-4 h-4" src="./assets/images/icons/shoes.svg" alt="productPicture" />
-                </div>
-              </summary>
-            </details>
-          </div>
-          <div class="border-b pb-3 text-lg text-gray-600">
-            <details>
-              <div class="flex justify-between items-baseline text-sm">
-                <a href="#">Earrings</a>
-                <span>300</span>
-              </div>
-              <div class="flex justify-between items-baseline text-sm">
-                <a href="#">Couple Rings</a>
-                <span>30</span>
-              </div>
-              <div class="flex justify-between items-baseline text-sm">
-                <a href="#">Necklace</a>
-                <span>50</span>
-              </div>
-              <summary>
-                <div class="flex items-center gap-2">
-                  Jewelry
-                  <img class="w-4 h-4" src="./assets/images/icons/jewelry.svg" alt="productPicture" />
-                </div>
-              </summary>
-            </details>
-          </div>
-          <div class="border-b pb-3 text-lg text-gray-600">
-            <details>
-              <div class="flex justify-between items-baseline text-sm">
-                <a href="#">Clothes Perfume</a>
-                <span>300</span>
-              </div>
-              <div class="flex justify-between items-baseline text-sm">
-                <a href="#">Deodorant</a>
-                <span>30</span>
-              </div>
-              <div class="flex justify-between items-baseline text-sm">
-                <a href="#">Jacket</a>
-                <span>50</span>
-              </div>
-              <div class="flex justify-between items-baseline text-sm">
-                <a href="#">Dress & Frock</a>
-                <span>120</span>
-              </div>
-              <summary>
-                <div class="flex items-center gap-2">
-                  Perfume
-                  <img class="w-4 h-4" src="./assets/images/icons/perfume.svg" alt="productPicture" />
-                </div>
-              </summary>
-            </details>
-          </div>
-          <div class="border-b pb-3 text-lg text-gray-600">
-            <details>
-              <div class="flex justify-between items-baseline text-sm">
-                <a href="#">Shampoo</a>
-                <span>300</span>
-              </div>
-              <div class="flex justify-between items-baseline text-sm">
-                <a href="#">Sunscreen</a>
-                <span>30</span>
-              </div>
-              <div class="flex justify-between items-baseline text-sm">
-                <a href="#">Body Wash</a>
-                <span>50</span>
-              </div>
-              <div class="flex justify-between items-baseline text-sm">
-                <a href="#">Makeup Kit</a>
-                <span>120</span>
-              </div>
-              <summary>
-                <div class="flex items-center gap-2">
-                  Cosmetics
-                  <img class="w-4 h-4" src="./assets/images/icons/cosmetics.svg" alt="productPicture" />
-                </div>
-              </summary>
-            </details>
-          </div>
-          <div class="border-b pb-3 text-lg text-gray-600">
-            <details>
-              <div class="flex justify-between items-baseline text-sm">
-                <a href="#">Sunglasses</a>
-                <span>23</span>
-              </div>
-              <div class="flex justify-between items-baseline text-sm">
-                <a href="#">Lenses</a>
-                <span>53</span>
-              </div>
-              <summary>
-                <div class="flex items-center gap-2">
-                  Glasses
-                  <img class="w-4 h-4" src="./assets/images/icons/glasses.svg" alt="productPicture" />
-                </div>
-              </summary>
-            </details>
-          </div>
-          <div class="border-b pb-3 text-lg text-gray-600">
-            <details>
-              <div class="flex justify-between items-baseline text-sm">
-                <a href="#">Wallet</a>
-                <span>300</span>
-              </div>
-              <div class="flex justify-between items-baseline text-sm">
-                <a href="#">Purse</a>
-                <span>30</span>
-              </div>
-              <div class="flex justify-between items-baseline text-sm">
-                <a href="#">Gym Backpack</a>
-                <span>50</span>
-              </div>
-              <div class="flex justify-between items-baseline text-sm">
-                <a href="#">Shopping Bag</a>
-                <span>120</span>
-              </div>
-              <summary>
-                <div class="flex items-center gap-2">
-                  Bags
-                  <img class="w-4 h-4" src="./assets/images/icons/bag.svg" alt="productPicture" />
-                </div>
-              </summary>
-            </details>
-          </div>
-        </div>
+      .nav-links a {
+        text-decoration: none;
+        color: #fff;
+        font-size: 18px;
+        font-weight: 500;
+        transition: color 0.3s ease;
+      }
 
-        <div class="bestsellers w-full h-auto mt-2 flex flex-col items-start justify-start gap-4">
-          <h2 class="text-lg font-semibold">BEST SELLERS</h2>
-          <div class="flex items-center justify-start gap-2">
-            <div class="w-20 h-20 p-2 border shadow-lg bg-gray-300/20 rounded-md">
-              <img class="w-full h-full" src="./assets/images/products/book-name.jpeg" alt="" />
-            </div>
-            <div class="text-gray-700">
-              <h4 class="text-gray-900">Baby Fabric Shoes</h4>
-              <div class="stars text-yellow-500">
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star-half-outline"></ion-icon>
-              </div>
-              <div class="flex items-center justify-start gap-4">
-                <s class="text-gray-500">$14.00</s> <strong>$7.00</strong>
-              </div>
-            </div>
-          </div>
-          <div class="flex items-center justify-start gap-2">
-            <div class="w-20 h-20 p-2 border shadow-lg bg-gray-300/20 rounded-md">
-              <img class="w-full h-full" src="./assets/images/products/2.jpg" alt="" />
-            </div>
-            <div class="text-gray-700">
-              <h4 class="text-gray-900">Men's Hoodies T-Shirt</h4>
-              <div class="stars text-yellow-500">
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star-half-outline"></ion-icon>
-                <ion-icon name="star-outline"></ion-icon>
-              </div>
-              <div class="flex items-center justify-start gap-4">
-                <s class="text-gray-500">$5.00</s> <strong>$2.00</strong>
-              </div>
-            </div>
-          </div>
-          <div class="flex items-center justify-start gap-2">
-            <div class="w-20 h-20 p-2 border shadow-lg bg-gray-300/20 rounded-md">
-              <img class="w-full h-full" src="./assets/images/products/3.jpg" alt="" />
-            </div>
-            <div class="text-gray-700">
-              <h4 class="text-gray-900">Girls T-Shirt</h4>
-              <div class="stars text-yellow-500">
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star-half-outline"></ion-icon>
-                <ion-icon name="star-outline"></ion-icon>
-                <ion-icon name="star-outline"></ion-icon>
-              </div>
-              <div class="flex items-center justify-start gap-4">
-                <s class="text-gray-500">$10.00</s> <strong>$5.00</strong>
-              </div>
-            </div>
-          </div>
-          <div class="flex items-center justify-start gap-2">
-            <div class="w-20 h-20 p-2 border shadow-lg bg-gray-300/20 rounded-md">
-              <img class="w-full h-full" src="./assets/images/products/4.jpg" alt="" />
-            </div>
-            <div class="text-gray-700">
-              <h4 class="text-gray-900">Woolen Hat For Men</h4>
-              <div class="stars text-yellow-500">
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star-half-outline"></ion-icon>
-              </div>
-              <div class="flex items-center justify-start gap-4">
-                <s class="text-gray-500">$24.00</s> <strong>$17.00</strong>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!--? Navbar -->
-  </header>
-  <main>
-    <!-- !banner -->
-    <div class="banner mt-10 lg:-mt-0 flex items-center justify-center">
-      <div class="swiper swiper-js">
-        <div class="swiper-wrapper h-64 lg:h-96 w-full lg:w-5/6 relative" id="swiperSlide"></div>
+      .nav-links a:hover {
+        color: #ff6262;
+      }
 
-        <div class="swiper-scrollbar"></div>
-      </div>
-    </div>
-    <!--todo Title Categories  -->
-    <div class="flex items-center justify-center mt-10">
-      <div class="">
-        <div id="titlecategories"></div>
+      .hero-section {
+        padding-top: 150px;
+        height: 50vh;
+        background: url('your-hero-image.jpg') center/cover no-repeat;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+        text-align: center;
+      }
 
-        <div class="swiper-scrollbar"></div>
-      </div>
-    </div>
+      .hero-text {
+        z-index: 1;
+      }
 
-    <!--? Products and categories  -->
-    <section class="w-full min-h-auto px-8 lg:px-0 lg:w-5/6 mx-auto mt-16 flex gap-8">
-      <aside class="sticky top-0 hidden lg:flex flex-col lg:w-1/4 max-h-screen">
-        <div class="aside_section overflow-y-auto">
-          <div class="categories w-full rounded-xl p-4 bg-white border shadow-lg">
-            <h1 class="text-xl font-semibold mb-4">CATEGORY</h1>
-            <div class="border-b pb-3 text-lg text-gray-600">
-              <details>
-                <div class="flex justify-between items-baseline text-sm">
-                  <a href="#">All</a>
-                  <span>1</span>
-                </div>
-                <summary>
-                  <div class="flex items-center gap-2">
-                    Fiction 
-                    <img class="w-4 h-4" src="./assets/images/icons/dress.svg" alt="productPicture" />
-                  </div>
-                </summary>
-              </details>
-            </div>
-            <div class="border-b pb-3 text-lg text-gray-600">
-              <details>
-                <div class="flex justify-between items-baseline text-sm">
-                  <a href="#">All</a>
-                  <span>0</span>
-                </div>
-                <summary>
-                  <div class="flex items-center gap-2">
-                    Self Help
-                    <img class="w-4 h-4" src="./assets/images/icons/shoes.svg" alt="productPicture" />
-                  </div>
-                </summary>
-              </details>
-            </div>
-            <div class="border-b pb-3 text-lg text-gray-600">
-              <details>
-                <div class="flex justify-between items-baseline text-sm">
-                  <a href="#">All</a>
-                  <span>0</span>
-                </div>
-                <summary>
-                  <div class="flex items-center gap-2">
-                    Non Fiction
-                    <img class="w-4 h-4" src="./assets/images/icons/bag.svg" alt="productPicture" />
-                  </div>
-                </summary>
-              </details>
-            </div>
-          </div>
+      .hero-text h1 {
+        font-size: 50px;
+        font-weight: 700;
+        margin-bottom: 20px;
+      }
 
-          <div class="bestsellers 2-72 h-auto mt-10 flex flex-col items-start justify-start gap-4">
-            <h2 class="text-lg font-semibold">BEST SELLERS</h2>
-            <div class="flex items-center justify-start gap-2">
-              <div class="w-20 h-20 p-2 border shadow-lg bg-gray-300/20 rounded-md">
-                <img class="w-full h-full" src="./assets/images/products/book-name.jpeg" alt="" />
-              </div>
-              <div class="text-gray-700">
-                <h4 class="text-gray-900">REGRET</h4>
-                <div class="stars text-yellow-500">
-                  <ion-icon name="star"></ion-icon>
-                  <ion-icon name="star"></ion-icon>
-                  <ion-icon name="star"></ion-icon>
-                  <ion-icon name="star"></ion-icon>
-                  <ion-icon name="star-half-outline"></ion-icon>
-                </div>
-                <div class="flex items-center justify-start gap-4">
-                  <strong>FREE</strong>
-                </div>
-              </div>
-          </div>
-        </div>
-      </aside>
+      .hero-text h1 span {
+        color: #ff6262; /* Pink color for "Favorite" */
+      }
 
-      <div class="products w-full lg:w-3/4 flex flex-col">
+      .hero-text p {
+        font-size: 18px;
+        margin-bottom: 20px;
+      }
 
+      .hero-text button {
+        padding: 12px 25px;
+        background-color: #ff6262;
+        border: none;
+        color: white;
+        font-size: 18px;
+        font-weight: 600;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
 
-        <div class="day my-10">
-          <h1 class="font-semibold text-xl border-b py-4">New Released</h1>
-          <div class="mt-10 w-full h-auto border rounded-lg flex flex-col lg:flex-row justify-between">
-            <img class="lg:w-1/3 w-full" src="./assets/images/products/book-name.jpeg" alt="" width="500" height="400" />
+      .hero-text button:hover {
+        background-color: #ff3e3e;
+      }
 
-            <div class="lg:w-1/2 flex flex-col items-start gap-2 p-4">
-              <div class="stars text-yellow-500">
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star-half-outline"></ion-icon>
-              </div>
-              <h4 class="font-bold text-lg">
-                REGRET
-              </h4>
-              <p>
-                A Story About Revenge
-              </p>
-              <div>
-                <strong class="text-red-400 font-bold text-xl">FREE</strong>
-              </div>
-              <a href="/fiction/regret.html" class="bg-red-500 text-white rounded-xl py-2 px-4 text-md font-semibold">
-                Read Now
-              </a>
-              <strong>This Book Is Released Today!!!</strong>
-            </div>
-          </div>
-        </div>
+      .carousel-container {
+        margin-top: 100px;
+        padding: 40px 0;
+      }
 
-        <div class="newProductsContainer">
-          <h1 class="font-semibold text-xl border-b py-4">New Products</h1>
-          <div id="newProducts" class="newProducts grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></div>
-        </div>
+      .carousel-title {
+        font-size: 24px;
+        color: #fff;
+        padding-left: 30px;
+        margin-bottom: 20px;
+        font-weight: bold;
+      }
+
+      .carousel {
+        overflow: hidden;
+        display: flex;
+        overflow-x: auto;
+        gap: 20px;
+        padding-left: 30px;
+        scroll-snap-type: x mandatory;
+      }
+
+      .carousel .book {
+        position: relative;
+        width: 200px;
+        height: 300px;
+        background-color: #333;
+        border-radius: 8px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        overflow: hidden;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+        scroll-snap-align: start;
+      }
+
+      .carousel .book img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .carousel .book:hover {
+        transform: scale(1.1);
+      }
+
+      footer {
+        background: #141414;
+        color: #777;
+        padding: 20px 30px;
+        text-align: center;
+        font-size: 14px;
+      }
+
+      footer a {
+        color: #ff6262;
+        text-decoration: none;
+      }
+
+      footer a:hover {
+        text-decoration: underline;
+      }
+
+      @media screen and (max-width: 768px) {
+        .hero-text h1 {
+          font-size: 30px;
+        }
+
+        .hero-text p {
+          font-size: 16px;
+        }
+
+        .hero-text button {
+          font-size: 16px;
+        }
+
+        .carousel .book {
+          width: 150px;
+          height: 225px;
+        }
+
+        .carousel-title {
+          font-size: 20px;
+        }
+
+        .carousel {
+          flex-direction: column;
+          padding-left: 100px;
+        }
+
+        .carousel .book {
+          margin-bottom: 20px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <div class="logo"><span>Plot</span>Planet</div>
+      </nav>
+    </header>
+
+    <section class="hero-section">
+      <div class="hero-text">
+        <h1>Explore Your Next <span>Favorite</span> Book</h1>
+        <p>Thrillers, Mysteries, Sci-Fi, and more.</p>
+        <button>Start Reading</button>
       </div>
     </section>
 
-    <div
-      class="mt-10 w-full px-8 lg:px-0 lg:w-5/6 mx-auto flex flex-wrap lg:flex-nowrap flex-col lg:flex-row gap-8 mb-20">
-
-    </div>
-
-    <div class="w-full mx-auto flex my-10">
-
-        <div class="swiper-scrollbar"></div>
-    </div>
-  </main>
-
-  <!--todo footer -->
-  <footer class="footer bg-[#212121]">
-    
-    <div class="px-6 py-8 md:px-8 md:py-10 lg:px-16 lg:py-12">
-      <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8">
-        
-        
-        <div>
-          <h2 class="font-bold text-md text-white">CONTACT</h2>
-          <hr class="title w-16 mb-4 mt-2" />
-          <ul class="flex flex-col justify-start text-gray-500 gap-2">
-            <li>
-              <ion-icon class="text-lg" name="mail-outline"></ion-icon>
-              <a href="mailto:storytrade@proton.me">Mail Us</a>
-            </li>
-          </ul>
-        </div>
-        
+    <section class="carousel-container">
+      <div class="carousel-title">Latest Books</div>
+      <div class="carousel">
+        <a href="/fiction/theguile.html" class="book">
+          <img src="fiction/book-assets/books/theguile.png" alt="The Guile" />
+        </a>
+        <a href="/fiction/farebUrdu.html" class="book">
+          <img src="fiction/book-assets/books/fareburdu.jpg" alt="Fareb Urdu" />
+        </a>
+        <a href="/fiction/regret.html" class="book">
+          <img src="fiction/book-assets/books/regret.jpeg" alt="Regret" />
+        </a>
       </div>
-    </div>
-    <hr />
-  </footer>
-  <!--! icons -->
-  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-  <!--!javascript file  -->
-  <script type="module" src="./assets/index.js"></script>
-</body>
+    </section>
 
+    <footer>
+      <p>&copy; 2025 PlotPlanet. All rights reserved. <a href="mailto:bsbookstore40@gmail.com">Mail Us</a></p>
+    </footer>
+  </body>
 </html>
