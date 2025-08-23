@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>Revenge Book - PlotPlanet</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                font-family: "Roboto", sans-serif;
+            }
+
+            body {
+                background: #1e1e1e;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                color: #e0e0e0;
+                font-size: 18px;
+            }
+
+            main {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                text-align: center;
+                padding: 32px;
+                background: #2c2c2c;
+                border-radius: 12px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+                max-width: 400px;
+                width: 100%;
+            }
+
+            .book-cover {
+                width: 100%;
+                max-width: 250px;
+                margin-bottom: 20px;
+                border-radius: 8px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            }
+
+            h3 {
+                font-size: 24px;
+                font-weight: bold;
+                color: #fff;
+                margin-bottom: 10px;
+            }
+
+            span {
+                font-weight: 300;
+                color: #bbb;
+                font-size: 16px;
+                margin-bottom: 20px;
+            }
+
+            .read-now-button {
+                background: linear-gradient(to right, #9f66ff, #dfcbff);
+                padding: 12px 20px;
+                color: white;
+                font-weight: bold;
+                font-size: 16px;
+                border: none;
+                border-radius: 30px;
+                cursor: pointer;
+                text-transform: uppercase;
+                transition:
+                    background 0.3s ease,
+                    transform 0.3s ease;
+            }
+
+            .read-now-button:hover {
+                background: linear-gradient(to right, #7b44e8, #c7a1f9);
+                transform: translateY(-3px);
+            }
+
+            .read-now-button:active {
+                transform: translateY(1px);
+            }
+
+            .container {
+                display: none;
+            }
+
+            @media screen and (max-width: 600px) {
+                h3 {
+                    font-size: 20px;
+                }
+
+                span {
+                    font-size: 14px;
+                }
+
+                .read-now-button {
+                    font-size: 14px;
+                    padding: 10px 18px;
+                }
+            }
+        </style>
+        <meta
+            name="viewport"
+            content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
+        />
+    </head>
+
+    <body>
+        <main>
+            <img
+                class="book-cover"
+                src="book-assets/books/KILL.jpg"
+                alt="Fareb Urdu Book Cover"
+            />
+            <h3>KILL</h3>
+            <span>Everyone Have A Secret</span>
+            <button
+                class="read-now-button"
+                id="button_pdf"
+                onclick="openBook()"
+            >
+                Read Now
+            </button>
+        </main>
+
+        <script>
+            function openBook() {
+                window.open("book-assets/books/KILL.pdf", "_blank");
+            }
+        </script>
+    </body>
+</html>
