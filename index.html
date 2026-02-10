@@ -1,257 +1,404 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon" />
-    <title>PlotPlanet - The Book Library</title>
+    <title>PlotPlanet | Dive into Stories</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
+
     <style>
+      /* --- CSS Styles (Same as before) --- */
+      :root {
+        --primary: #ff6262;
+        --primary-hover: #ff3e3e;
+        --bg-dark: #0a0a0a;
+        --bg-card: #141414;
+        --text-main: #ffffff;
+        --text-muted: #a0a0a0;
+        --glass: rgba(10, 10, 10, 0.8);
+        --font-serif: "Playfair Display", serif;
+        --font-sans: "Inter", sans-serif;
+      }
+
       * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-        font-family: 'Roboto', sans-serif;
       }
 
       body {
-        background: #141414;
-        color: #e0e0e0;
+        background: var(--bg-dark);
+        color: var(--text-main);
+        font-family: var(--font-sans);
+        line-height: 1.6;
         overflow-x: hidden;
       }
 
-      /* Scrollbar Styling - Entire scrollbar is pink */
+      /* Scrollbar */
       ::-webkit-scrollbar {
-        width: 10px;
+        width: 8px;
       }
-
-      ::-webkit-scrollbar-thumb {
-        background-color: #ff6262; /* Entire scrollbar is pink */
-        border-radius: 10px;
-      }
-
-      ::-webkit-scrollbar-thumb:hover {
-        background-color: #ff3e3e; /* Darker pink on hover */
-      }
-
       ::-webkit-scrollbar-track {
+        background: var(--bg-dark);
+      }
+      ::-webkit-scrollbar-thumb {
         background: #333;
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: var(--primary);
       }
 
+      /* Header */
       header {
         display: flex;
         justify-content: space-between;
-        padding: 20px 30px;
+        align-items: center;
+        padding: 1.2rem 5%;
         position: fixed;
         width: 100%;
         top: 0;
         z-index: 1000;
-        background-color: rgba(0, 0, 0, 0.7);
+        background: var(--glass);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        transition: all 0.3s ease;
       }
 
       .logo {
-        font-size: 24px;
-        font-weight: bold;
-      }
-
-      .logo span {
-        color: #ff6262; /* Pink color for "Plot" */
-      }
-
-      .nav-links {
-        display: flex;
-        gap: 20px;
-        color: #fff;
-      }
-
-      .nav-links a {
+        font-family: var(--font-serif);
+        font-size: 1.8rem;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+        color: white;
         text-decoration: none;
-        color: #fff;
-        font-size: 18px;
-        font-weight: 500;
-        transition: color 0.3s ease;
+      }
+      .logo span {
+        color: var(--primary);
+        font-style: italic;
       }
 
-      .nav-links a:hover {
-        color: #ff6262;
-      }
-
+      /* Hero */
       .hero-section {
-        padding-top: 150px;
-        height: 50vh;
-        background: url('your-hero-image.jpg') center/cover no-repeat;
+        height: 85vh;
+        min-height: 600px;
         position: relative;
         display: flex;
-        justify-content: center;
         align-items: center;
-        color: #fff;
-        text-align: center;
+        padding: 0 5%;
+        overflow: hidden;
+      }
+
+      .hero-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url("https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&q=80")
+          center/cover no-repeat;
+        filter: brightness(0.5);
+        z-index: -1;
+        animation: zoomBg 20s ease-in-out infinite alternate;
+      }
+      @keyframes zoomBg {
+        0% {
+          transform: scale(1);
+        }
+        100% {
+          transform: scale(1.1);
+        }
+      }
+
+      .hero-section::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to bottom,
+          rgba(10, 10, 10, 0.2),
+          var(--bg-dark)
+        );
+        z-index: -1;
       }
 
       .hero-text {
-        z-index: 1;
+        max-width: 800px;
+        z-index: 2;
       }
-
       .hero-text h1 {
-        font-size: 50px;
-        font-weight: 700;
-        margin-bottom: 20px;
+        font-family: var(--font-serif);
+        font-size: clamp(3rem, 7vw, 5rem);
+        line-height: 1.1;
+        margin-bottom: 1.5rem;
+        opacity: 0;
+        animation: fadeUp 0.8s ease-out forwards;
       }
-
       .hero-text h1 span {
-        color: #ff6262; /* Pink color for "Favorite" */
+        color: var(--primary);
+        font-style: italic;
       }
-
       .hero-text p {
-        font-size: 18px;
-        margin-bottom: 20px;
+        font-size: 1.2rem;
+        color: #e0e0e0;
+        margin-bottom: 2.5rem;
+        opacity: 0;
+        animation: fadeUp 0.8s ease-out 0.2s forwards;
       }
-
-      .hero-text button {
-        padding: 12px 25px;
-        background-color: #ff6262;
+      .btn-primary {
+        padding: 1rem 3rem;
+        background: var(--primary);
         border: none;
         color: white;
-        font-size: 18px;
         font-weight: 600;
-        border-radius: 5px;
+        border-radius: 50px;
         cursor: pointer;
-        transition: background-color 0.3s ease;
+        transition: 0.3s;
+        opacity: 0;
+        animation: fadeUp 0.8s ease-out 0.4s forwards;
+      }
+      .btn-primary:hover {
+        background: var(--primary-hover);
+        transform: translateY(-3px);
       }
 
-      .hero-text button:hover {
-        background-color: #ff3e3e;
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
       }
 
+      /* Carousel */
       .carousel-container {
-        margin-top: 100px;
-        padding: 40px 0;
+        padding: 4rem 0 6rem;
+      }
+      .section-header {
+        padding: 0 5%;
+        margin-bottom: 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .carousel-title {
+        font-family: var(--font-serif);
+        font-size: 2.5rem;
       }
 
-      .carousel-title {
-        font-size: 24px;
-        color: #fff;
-        padding-left: 30px;
-        margin-bottom: 20px;
-        font-weight: bold;
+      .carousel-controls button {
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: white;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        cursor: pointer;
+        margin-left: 10px;
+        transition: 0.2s;
+      }
+      .carousel-controls button:hover {
+        background: var(--primary);
+        border-color: var(--primary);
       }
 
       .carousel {
-        overflow: hidden;
         display: flex;
+        gap: 30px;
         overflow-x: auto;
-        gap: 20px;
-        padding-left: 30px;
-        scroll-snap-type: x mandatory;
+        scroll-behavior: smooth;
+        padding: 20px 5%;
+        scrollbar-width: none;
+      }
+      .carousel::-webkit-scrollbar {
+        display: none;
       }
 
-      .carousel .book {
+      /* Generated Book Card */
+      .book-card {
+        flex: 0 0 auto;
+        width: 220px;
+        height: 340px;
+        border-radius: 12px;
         position: relative;
-        width: 200px;
-        height: 300px;
-        background-color: #333;
-        border-radius: 8px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         overflow: hidden;
-        cursor: pointer;
-        transition: transform 0.3s ease;
-        scroll-snap-align: start;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+        transition: 0.4s ease;
       }
-
-      .carousel .book img {
+      .book-card img {
         width: 100%;
         height: 100%;
         object-fit: cover;
+        transition: 0.5s;
+      }
+      .book-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+        opacity: 0;
+        display: flex;
+        align-items: flex-end;
+        padding: 1.5rem;
+        transition: 0.3s;
+      }
+      .book-info h3 {
+        font-family: var(--font-serif);
+        font-size: 1.3rem;
+        color: white;
+        margin-bottom: 5px;
+      }
+      .book-info span {
+        color: var(--primary);
+        font-size: 0.9rem;
+        font-weight: 600;
+        text-transform: uppercase;
       }
 
-      .carousel .book:hover {
+      .book-card:hover {
+        transform: translateY(-10px);
+      }
+      .book-card:hover img {
         transform: scale(1.1);
       }
+      .book-card:hover .book-overlay {
+        opacity: 1;
+      }
 
+      /* Footer */
       footer {
-        background: #141414;
-        color: #777;
-        padding: 20px 30px;
         text-align: center;
-        font-size: 14px;
+        padding: 4rem 5%;
+        border-top: 1px solid #333;
+        margin-top: auto;
       }
-
       footer a {
-        color: #ff6262;
+        color: var(--primary);
         text-decoration: none;
-      }
-
-      footer a:hover {
-        text-decoration: underline;
-      }
-
-      @media screen and (max-width: 768px) {
-        .hero-text h1 {
-          font-size: 30px;
-        }
-
-        .hero-text p {
-          font-size: 16px;
-        }
-
-        .hero-text button {
-          font-size: 16px;
-        }
-
-        .carousel .book {
-          width: 150px;
-          height: 225px;
-        }
-
-        .carousel-title {
-          font-size: 20px;
-        }
-
-        .carousel {
-          flex-direction: column;
-          padding-left: 100px;
-        }
-
-        .carousel .book {
-          margin-bottom: 20px;
-        }
       }
     </style>
   </head>
 
   <body>
-    <header>
-      <div class="logo"><span>Plot</span>Planet</div>
-      </nav>
+    <header id="header">
+      <a href="#" class="logo">plot<span>planet</span></a>
     </header>
 
     <section class="hero-section">
+      <div class="hero-bg"></div>
       <div class="hero-text">
-        <h1>Explore Your Next <span>Favorite</span> Book</h1>
-        <p>Thrillers, Mysteries, Sci-Fi, and more.</p>
-        <button>Start Reading</button>
+        <h1>Discover stories that <br /><span>stay with you.</span></h1>
+        <p>Curated thrillers, mysteries, and poetry ebooks.</p>
+        <button
+          class="btn-primary"
+          onclick="
+            document
+              .getElementById('library')
+              .scrollIntoView({ behavior: 'smooth' })
+          "
+        >
+          Browse Library
+        </button>
       </div>
     </section>
 
-    <section class="carousel-container">
-      <div class="carousel-title">Latest Books</div>
-      <div class="carousel">
-        <a href="/fiction/theguile.html" class="book">
-          <img src="fiction/book-assets/books/theguile.png" alt="The Guile" />
-        </a>
-        <a href="/fiction/farebUrdu.html" class="book">
-          <img src="fiction/book-assets/books/fareburdu.jpg" alt="Fareb Urdu" />
-        </a>
-        <a href="/fiction/regret.html" class="book">
-          <img src="fiction/book-assets/books/regret.jpeg" alt="Regret" />
-        </a>
-        <a href="/fiction/kill.html" class="book">
-          <img src="fiction/book-assets/books/KILL.jpg" alt="Regret" />
-        </a>
+    <main class="carousel-container" id="library">
+      <div class="section-header">
+        <div class="carousel-title">Latest Releases</div>
+        <div class="carousel-controls">
+          <button id="prevBtn">&larr;</button>
+          <button id="nextBtn">&rarr;</button>
+        </div>
       </div>
-    </section>
+
+      <div class="carousel" id="bookCarousel"></div>
+    </main>
 
     <footer>
-      <p>&copy; 2025 PlotPlanet. All rights reserved. <a href="mailto:bsbookstore40@gmail.com">Mail Us</a></p>
+      <p>
+        &copy; 2026 PlotPlanet.
+        <a href="mailto:bsbookstore40@gmail.com">Contact</a>
+      </p>
     </footer>
+
+    <script>
+      // 1. DATA: Add your books here
+      const bookList = [
+        {
+          title: "Na Mukammil Tahreer",
+          image: "fiction/book-assets/books/na_mukammal_tahreer.png",
+          link: "/fiction/Na-Mukammil-Tahreer.html",
+        },
+        {
+          title: "The Guile",
+          image: "fiction/book-assets/books/theguile.png",
+          link: "/fiction/theguile.html",
+        },
+        {
+          title: "Fareb Urdu",
+          image: "fiction/book-assets/books/fareburdu.jpg",
+          link: "/fiction/farebUrdu.html",
+        },
+        {
+          title: "Regret",
+          image: "fiction/book-assets/books/regret.jpeg",
+          link: "/fiction/regret.html",
+        },
+        {
+          title: "Kill",
+          image: "fiction/book-assets/books/KILL.jpg",
+          link: "/fiction/kill.html",
+        },
+      ];
+
+      // 2. RENDER: This loops through the list and creates HTML
+      const carouselContainer = document.getElementById("bookCarousel");
+
+      let htmlContent = "";
+
+      bookList.forEach((book) => {
+        htmlContent += `
+          <a href="${book.link}" class="book-card">
+            <img src="${book.image}" alt="${book.title}" loading="lazy" />
+            <div class="book-overlay">
+              <div class="book-info">
+                <h3>${book.title}</h3>
+                <span>Read Now &rarr;</span>
+              </div>
+            </div>
+          </a>
+        `;
+      });
+
+      carouselContainer.innerHTML = htmlContent;
+
+      // 3. CONTROLS: Scroll Logic
+      const prevBtn = document.getElementById("prevBtn");
+      const nextBtn = document.getElementById("nextBtn");
+
+      nextBtn.addEventListener("click", () => {
+        carouselContainer.scrollBy({ left: 250, behavior: "smooth" });
+      });
+
+      prevBtn.addEventListener("click", () => {
+        carouselContainer.scrollBy({ left: -250, behavior: "smooth" });
+      });
+
+      // Header scroll effect
+      window.addEventListener("scroll", () => {
+        const header = document.getElementById("header");
+        if (window.scrollY > 50) header.style.padding = "0.8rem 5%";
+        else header.style.padding = "1.2rem 5%";
+      });
+    </script>
   </body>
 </html>

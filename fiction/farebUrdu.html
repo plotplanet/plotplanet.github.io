@@ -1,126 +1,240 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Revenge Book - PlotPlanet</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KILL | PlotPlanet</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
+
     <style>
+      :root {
+        --primary: #ff6262;
+        --primary-hover: #ff3e3e;
+        --bg-dark: #0a0a0a;
+        --text-main: #ffffff;
+        --text-muted: #a0a0a0;
+        --font-serif: "Playfair Display", serif;
+        --font-sans: "Inter", sans-serif;
+      }
+
       * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-        font-family: 'Roboto', sans-serif;
       }
 
       body {
-        background: #1e1e1e;
+        background: var(--bg-dark);
+        color: var(--text-main);
+        font-family: var(--font-sans);
+        min-height: 100vh;
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100vh;
-        color: #e0e0e0;
-        font-size: 18px;
+        overflow-x: hidden;
+        position: relative;
       }
 
+      /* Atmospheric Blurred Background */
+      .bg-blur {
+        position: absolute;
+        inset: -20px;
+        background: url("book-assets/books/KILL.jpg") center/cover no-repeat;
+        filter: blur(40px) brightness(0.4);
+        z-index: -1;
+        opacity: 0.6;
+        transform: scale(1.1);
+      }
+
+      /* Main Glass Card */
       main {
         display: flex;
-        justify-content: center;
+        flex-direction: row;
+        background: rgba(20, 20, 20, 0.7);
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        padding: 40px;
+        max-width: 900px;
+        width: 90%;
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+        gap: 40px;
         align-items: center;
-        flex-direction: column;
-        text-align: center;
-        padding: 32px;
-        background: #2c2c2c;
-        border-radius: 12px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-        max-width: 400px;
-        width: 100%;
+        position: relative;
+        animation: fadeInUp 0.8s ease-out;
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Book Cover Styling */
+      .cover-wrapper {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        perspective: 1000px;
       }
 
       .book-cover {
         width: 100%;
-        max-width: 250px;
-        margin-bottom: 20px;
+        max-width: 300px;
         border-radius: 8px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+        transition: transform 0.4s ease;
       }
 
-      h3 {
-        font-size: 24px;
-        font-weight: bold;
-        color: #fff;
-        margin-bottom: 10px;
+      .book-cover:hover {
+        transform: rotateY(-5deg) scale(1.02);
       }
 
-      span {
-        font-weight: 300;
-        color: #bbb;
-        font-size: 16px;
-        margin-bottom: 20px;
+      /* Text Content */
+      .content {
+        flex: 1.5;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: left;
       }
 
-      .read-now-button {
-        background: linear-gradient(to right, #9f66ff, #dfcbff);
-        padding: 12px 20px;
+      .back-link {
+        color: var(--text-muted);
+        text-decoration: none;
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        transition: color 0.3s;
+      }
+      .back-link:hover {
+        color: var(--primary);
+      }
+
+      h1 {
+        font-family: var(--font-serif);
+        font-size: 3.5rem;
+        font-weight: 700;
+        line-height: 1;
+        margin-bottom: 0.5rem;
         color: white;
-        font-weight: bold;
-        font-size: 16px;
+      }
+
+      .tagline {
+        font-family: var(--font-serif);
+        font-style: italic;
+        font-size: 1.2rem;
+        color: var(--primary);
+        margin-bottom: 1.5rem;
+      }
+
+      .description {
+        color: #d1d1d1;
+        font-size: 1rem;
+        line-height: 1.7;
+        margin-bottom: 2rem;
+      }
+
+      /* Button Styling */
+      .read-now-button {
+        background: var(--primary);
+        color: white;
+        padding: 14px 32px;
+        font-weight: 600;
+        font-size: 1rem;
         border: none;
-        border-radius: 30px;
+        border-radius: 50px;
         cursor: pointer;
         text-transform: uppercase;
-        transition: background 0.3s ease, transform 0.3s ease;
+        letter-spacing: 1px;
+        transition: all 0.3s ease;
+        align-self: flex-start;
+        box-shadow: 0 5px 15px rgba(255, 98, 98, 0.3);
       }
 
       .read-now-button:hover {
-        background: linear-gradient(to right, #7b44e8, #c7a1f9);
+        background: var(--primary-hover);
         transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(255, 98, 98, 0.4);
       }
 
       .read-now-button:active {
-        transform: translateY(1px);
+        transform: translateY(0);
       }
 
-      .container {
-        display: none;
-      }
-
-      @media screen and (max-width: 600px) {
-        h3 {
-          font-size: 20px;
+      /* Responsive Mobile */
+      @media screen and (max-width: 768px) {
+        main {
+          flex-direction: column;
+          padding: 30px 20px;
+          text-align: center;
         }
 
-        span {
-          font-size: 14px;
+        .content {
+          align-items: center; /* Centers button on mobile */
+        }
+
+        h1 {
+          font-size: 2.5rem;
+        }
+
+        .book-cover {
+          max-width: 200px;
+          margin-bottom: 20px;
         }
 
         .read-now-button {
-          font-size: 14px;
-          padding: 10px 18px;
+          width: 100%;
+          align-self: center;
         }
       }
     </style>
-    <meta
-      name="viewport"
-      content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
-    />
   </head>
 
   <body>
+    <div class="bg-blur"></div>
+
     <main>
-      <img
-        class="book-cover"
-        src="book-assets/books/fareburdu.jpg"
-        alt="Fareb Urdu Book Cover"
-      />
-      <h3>Fareb Urdu</h3>
-      <span>A book about thriller, crime, and mystery</span>
-      <button class="read-now-button" id="button_pdf" onclick="openBook()">
-        Read Now
-      </button>
+      <div class="cover-wrapper">
+        <img
+          class="book-cover"
+          src="book-assets/books/fareburdu.jpg"
+          alt="Fareb Urdu Book Cover"
+        />
+      </div>
+
+      <div class="content">
+        <a href="/" class="back-link">&larr; Back to Library</a>
+        <h1>Fareb Urdu</h1>
+        <span class="tagline">by BSaman</span>
+
+        <!-- <p class="description">
+          A gripping tale of revenge where the line between justice and crime
+          blurs. When secrets are unearthed, no one is safe. Dive into this
+          intense thriller that will keep you guessing until the very last page.
+        </p> -->
+
+        <button class="read-now-button" onclick="openBook()">Read PDF</button>
+      </div>
     </main>
 
     <script>
       function openBook() {
-        window.open('book-assets/books/fareburdu.pdf', '_blank');
+        // Opens the PDF in a new tab
+        window.open("book-assets/books/fareburdu.pdf", "_blank");
       }
     </script>
   </body>
